@@ -14,10 +14,8 @@ client_secret = os.getenv("SPOTIFY_CLIENT_SECRET")
 redirect_uri = 'http://127.0.0.1:8888/callback'
 scope = 'playlist-read-private'
 
-# Cache para sessão do Flask
 cache_handler = FlaskSessionCacheHandler(session)
 
-# Cria o objeto OAuth
 sp_oauth = SpotifyOAuth(
     client_id=client_id,
     client_secret=client_secret,
@@ -29,7 +27,6 @@ sp_oauth = SpotifyOAuth(
 
 @app.route('/')
 def home():
-    # Se não houver token válido, vai para login
     token_info = session.get('token_info')
     if not token_info:
         return redirect(url_for('login'))
@@ -62,6 +59,7 @@ def get_playlists():
 
 
     return playlists_html
+
 @app.route('/logout')
 def logout():
     session.clear()
